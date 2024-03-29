@@ -1,3 +1,0 @@
-/home/leoli/programming/console-video-player/video-encoder/cmake-build-debug/CMakeFiles/console-video-encoder.dir
-/home/leoli/programming/console-video-player/video-encoder/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/leoli/programming/console-video-player/video-encoder/cmake-build-debug/CMakeFiles/rebuild_cache.dir
