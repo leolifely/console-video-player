@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.10)
+project(console-video-encoder)
+find_package(OpenCV REQUIRED)
+add_executable(console-video-encoder encode.cpp)
+target_link_libraries(console-video-encoder PRIVATE ${OpenCV_LIBS})
