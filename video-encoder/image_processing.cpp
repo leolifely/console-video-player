@@ -2,6 +2,8 @@
 // Created by leoli on 30/03/24.
 //
 #include "image_processing.h"
+
+#include <iostream>
 #include <opencv2/imgproc.hpp>
 
 std::string image_to_ascii(const cv::Mat &image, const ImageToAsciiOptions &options) {
@@ -12,9 +14,12 @@ std::string image_to_ascii(const cv::Mat &image, const ImageToAsciiOptions &opti
     const auto num_chars = static_cast<int>(options.chars.size());
 
     std::string ascii_image;
+    const uchar *ptr = processed_image.data;
     for (int row = 0; row < processed_image.rows; row++) {
         for (int col = 0; col < processed_image.cols; col++) {
-            auto intensity = processed_image.at<uchar>(row, col);
+            int ptr_index = row * processed_image.cols + col;
+            auto intensity = ptr[ptr_index];
+            
 
             intensity = 255 - intensity;
 
