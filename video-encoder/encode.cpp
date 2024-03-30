@@ -2,30 +2,9 @@
 #include <cstdio>
 #include <string>
 #include <fstream>
-
+#include "image_processing.h"
 
 #define DELIMITER "FRM_E"
-
-
-
-std::string image_to_ascii(const cv::Mat &image, const std::string &chars = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'. ") {
-    const auto num_chars = static_cast<int>(chars.size());
-
-    std::string ascii_art;
-    for (int i = 0; i < image.rows; ++i) {
-        for (int j = 0; j < image.cols; ++j) {
-            auto intensity = image.at<uchar>(i, j);
-
-            intensity = 255 - intensity;
-
-            const auto index = static_cast<int>(static_cast<double>(intensity) / 255.0 * (num_chars - 1));
-            ascii_art += chars[index];
-        }
-        ascii_art += '\n';
-    }
-
-    return ascii_art;
-}
 
 
 int main(int argc, char *argv[]) {
@@ -45,22 +24,15 @@ int main(int argc, char *argv[]) {
     }
     
     std::ofstream output_file(argv[2]);
-    cv::Mat full_size_frame, full_size_greyscale_frame, frame;
+    cv::Mat frame;
 
     output_file << fps << '\0' << std::endl;
 
     for (;;) {
-        video >> full_size_frame;
-        if (full_size_frame.empty()) break;
-        
-        cv::cvtColor(full_size_frame, full_size_greyscale_frame, cv::COLOR_BGR2GRAY);
-       
-        
-        cv::resize(full_size_greyscale_frame, frame, cv::Size(160, 48), cv::INTER_LINEAR);
-        
+        video >> frame;
+        if (frame.empty()) break;
 
-
-        output_file << image_to_ascii(frame);
+        output_file << image_to_ascii(frame, ImageToAsciiOptions{});
         output_file << DELIMITER << std::endl;
     }
     
