@@ -2,7 +2,6 @@
 // Created by leoli on 30/03/24.
 //
 #include "image_processing.h"
-
 #include <opencv2/imgproc.hpp>
 
 std::string image_to_ascii(const cv::Mat &image, const ImageToAsciiOptions &options) {
