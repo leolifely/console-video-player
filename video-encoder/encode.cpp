@@ -21,6 +21,7 @@ int main(int argc, char **argv) {
         ("i,input", "Path to input video", cxxopts::value<std::string>())
         ("o,output", "Path to output encoded video", cxxopts::value<std::string>())
         ("s,size", "Resolution of outputted video (width x height)", cxxopts::value<std::string>())
+        ("c,colour", "Enable colour in outputted file using ANSI escape codes. Not supported in all terminals")
         ("h,help", "Show this message");
 
     auto args = options.parse(argc, argv);
@@ -28,6 +29,10 @@ int main(int argc, char **argv) {
     if (args.count("help")) {
         std::cout << options.help() << std::endl;
         return 0;
+    }
+
+    if (args.count("colour")) {
+        image_options.colour = true;
     }
 
     video_path = args["input"].as<std::string>();

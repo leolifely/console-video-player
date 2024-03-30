@@ -18,17 +18,6 @@ double get_fps(std::string file_path) {
     return fps;
 }
 
-void print_frame(std::vector<std::string> frame_data) {
-    int number_lines = frame_data.size();
-    std::string frame;
-
-    for(int i = 0; i < number_lines; i++) {
-        frame += frame_data[i];
-    }
-
-    std::cout << frame;
-}
-
 int main(int argc, char *argv[]) {
     if (argc != 3) {
         printf("Usage: play path_to_conv path_to_audio");
@@ -48,11 +37,18 @@ int main(int argc, char *argv[]) {
     std::string line;
 
     sound.play();
+    auto start_time = std::chrono::high_resolution_clock::now();
     while (std::getline(file_stream, line)) {
+        auto end_time = std::chrono::high_resolution_clock::now();
+        auto elapsed_time = std::chrono::duration_cast<std::chrono::duration<double>>(end_time - start_time).count();
         if (line == DELIMITER) {
-            std::this_thread::sleep_for(std::chrono::duration<double>(delay));
+            double remaining_delay = delay - elapsed_time;
+            if (remaining_delay > 0)
+                std::this_thread::sleep_for(std::chrono::duration<double>(remaining_delay));
+            start_time = std::chrono::high_resolution_clock::now();
         } else {
             std::cout << line << std::endl;
         }
     }
+    return 0;
 }

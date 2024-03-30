@@ -12,6 +12,7 @@ struct ImageToAsciiOptions {
     std::string chars = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'. ";
     int output_width = 160;
     int output_height = 48;
+    bool colour = false;
 };
 
 std::string image_to_ascii(const cv::Mat &image, const ImageToAsciiOptions &options);
