@@ -35,17 +35,20 @@ int main(int argc, char **argv) {
 
     if (args.count("size")) {
         auto size_str = args["size"].as<std::string>();
-        boost::tokenizer tok(size_str);
+        boost::char_separator<char> sep("x");
+        boost::tokenizer<boost::char_separator<char>> tok(size_str, sep);
 
-        int width, height, count = 0;
+        int width = 0, height = 0, count = 0;
 
         for (auto it = tok.begin(); it != tok.end() && count < 2; ++it, ++count) {
             std::stringstream ss(*it);
-            if (!count) ss >> width;
-            if (count) ss >> height;
-            image_options.output_width = width;
-            image_options.output_height = height;
+            if (!count) ss >> width; // Store width in the first iteration
+            else ss >> height; // Store height in the second iteration
         }
+
+        std::cout << "Width: " << width << ", Height: " << height << std::endl;
+        image_options.output_width = width;
+        image_options.output_height = height;
     }
 
     cv::VideoCapture video(video_path);
